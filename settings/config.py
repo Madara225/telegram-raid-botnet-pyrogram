@@ -1,16 +1,16 @@
 import os
 
 #сообщения для начала спама
-trigger = 'a'
+trigger = ''
 
 #id основного аккаунта
-my_id = 996115106
+my_id = 
 
 #уведомления
 notification = ' '
 
 #количество кругов
-range_acc = 999
+range_acc = 
 
 #поиск стикера в папке
 stickers = os.listdir('media/')
@@ -27,4 +27,4 @@ color_number = "bold purple"
 first_name = ['']
 
 #Пример: ['привет', 'а', 'б']
-text = ['@pepe_devs']
+text = ['']
