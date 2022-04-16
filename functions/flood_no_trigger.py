@@ -11,9 +11,9 @@ import time
 
 from settings.config import *
 from functions.flood import FloodChat
+from settings.config import color_number
 
-
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 class FloodChatNoTrigger(FloodChat):
 	"""flood to chat no trigger"""

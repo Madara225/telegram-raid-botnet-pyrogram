@@ -7,8 +7,9 @@ import time
 
 from settings.config import range_acc
 from settings.function import SettingsFunction
+from settings.config import color_number
 
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 class FloodMP(SettingsFunction):
 	"""flood to PM"""

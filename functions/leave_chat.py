@@ -1,8 +1,9 @@
 from rich.console import Console, Theme
 from pyrogram import Client
 import asyncio
+from settings.config import color_number
 
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 class Leavechat:
 	"""leave the chat"""

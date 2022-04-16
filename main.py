@@ -4,9 +4,9 @@ import sys
 
 from settings.settings import MenuSettings
 from settings.settings_session import ConnectSessions
+from settings.config import color_number
 
-
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 console.print('''[bold white]
 idea taken from @huis_bn
@@ -24,7 +24,7 @@ def botnet_main():
 	
 	menu_function={}
 	
-	console.print(f'[bold white]botnet accounts >> [purple]{len(accs.connect_sessions)}')
+	console.print(f'[bold white]botnet accounts >> [{color_number}]{len(accs.connect_sessions)}')
 	
 	for num_function, function in enumerate(
 			list_function.menu_botnet, 

@@ -10,8 +10,9 @@ import random
 
 from settings.config import *
 from settings.function import SettingsFunction
+from settings.config import color_number
 
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 class FloodChat(SettingsFunction):
 	"""flood to chat"""
@@ -24,9 +25,9 @@ class FloodChat(SettingsFunction):
 			
 		self.flood_menu = console.input(
 '''[bold]
-[1] - flood text
-[2] - flood stickers/video
-[3] - flood photo
+[1] - raid text
+[2] - raid stickers/video
+[3] - raid photo
 >> ''')
 		
 		self.notify = Confirm.ask('[bold red]notify admins?')
@@ -54,6 +55,7 @@ class FloodChat(SettingsFunction):
 		if not self.notify:
 			self.users_id = list(set(self.users_id)-set(self.admins))
 
+		errors_count = 0
 		count = 0
 		for _ in range(range_acc):
 			try:
@@ -67,17 +69,16 @@ class FloodChat(SettingsFunction):
 				console.print(f'[{self.me.first_name}] [bold green]sent[/] COUNT: [{count}]')
 
 			except Exception as error:
-				console.print(f'[bold red]ERROR[/]:{self.me.first_name} {error}')
+				errors_count += 1
+				console.print(f'[bold red]not sent [{errors_count}][/]:{self.me.first_name} {error}')
+				
+			if errors_count == 3:
+				break
 
 			await asyncio.sleep(int(self.delay))
 
 
-	async def flood_text(self,
-				app,
-				users_id,
-				chat_id,
-				reply_msg_id
-				):
+	async def flood_text(self, app, users_id, chat_id, reply_msg_id):
 		await app.send_message(
 			chat_id,
 			(f'<a href=\"tg://user?id={users_id}\">'+notification+'</a>'+random.choice(text)),
@@ -85,11 +86,7 @@ class FloodChat(SettingsFunction):
 			)
 
 
-	async def flood_stickers(self,
-				app,
-				chat_id,
-				reply_msg_id
-				):
+	async def flood_stickers(self, app, chat_id, reply_msg_id):
 		await app.send_document(
 			self.chat_id,
 			'media/'+random.choice(stickers),
@@ -97,11 +94,7 @@ class FloodChat(SettingsFunction):
 			)
 
 
-	async def flood_photo(self,
-				app,
-				chat_id,
-				reply_msg_id
-				):
+	async def flood_photo(self, app, chat_id, reply_msg_id):
 		await app.send_photo(
 			self.chat_id,
 			'photo/'+random.choice(photo),
@@ -111,19 +104,23 @@ class FloodChat(SettingsFunction):
 
 
 	def handler(self, app, num_accs):
-		app.start()
-		console.log(f'initialized[*]{num_accs}')
-		@app.on_message()
-		async def main(client, message):
-			if message.reply_to_message:
-				reply_msg_id = message.reply_to_message.message_id
-			else:
-				reply_msg_id = False
+		try:
+			app.start()
+			console.log(f'initialized[*]{num_accs}')
+			@app.on_message()
+			async def main(client, message):
+				if message.reply_to_message:
+					reply_msg_id = message.reply_to_message.message_id
+				else:
+					reply_msg_id = False
 
-			if message.text == trigger and message.from_user.id == my_id:
-					await self.flood(app, message.chat.id, reply_msg_id)
+				if message.text == trigger and message.from_user.id == my_id:
+						await self.flood(app, message.chat.id, reply_msg_id)
 
-		idle()
+			idle()
+			
+		except Exception as error:
+			console.print(f'[bold red]ERROR[/]: {error}')
 
 	def start_process_flood(self):
 		self.account_count(self.connect_sessions)

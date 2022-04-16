@@ -6,8 +6,9 @@ import random
 
 from settings.config import photo
 from settings.function import SettingsFunction
+from settings.config import color_number
 
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 
 class ChangePhoto(SettingsFunction):

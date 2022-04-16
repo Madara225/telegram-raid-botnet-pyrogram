@@ -6,8 +6,9 @@ import random
 
 from settings.function import SettingsFunction
 from settings.config import text, range_acc
+from settings.config import color_number
 
-console = Console(theme=Theme({"repr.number": "bold purple"}))
+console = Console(theme=Theme({"repr.number": color_number}))
 
 class FloodComments(SettingsFunction):
 	"""flood to channel comments"""
