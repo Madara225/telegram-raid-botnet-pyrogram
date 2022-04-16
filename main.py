@@ -47,7 +47,7 @@ def botnet_main():
 	except KeyboardInterrupt:
 		sys.exit()
 		
-	#except:
-	#	botnet_main()
+	except:
+		botnet_main()
 
 botnet_main()
