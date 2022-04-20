@@ -14,13 +14,12 @@ class SpamBlock(SettingsFunction):
 		self.connect_sessions = connect_sessions
 		self.initialize = initialize
 		
-		self.start_checking()
+		for app in self.connect_sessions:
+			self.checking_block(app)
 
 	def checking_block(self, app):
 		if not self.initialize:
 			app.connect()
-
-		
 		try:
 			me = app.get_me()
 			app.send_message('SpamBot', '/start')
@@ -43,9 +42,3 @@ class SpamBlock(SettingsFunction):
 
 				except:
 					console.print(f'[bold red][-][/] [{me.first_name}] [{me.phone_number}] id:[{me.id}] [bold red] permanent block[/]')
-
- 
-
-	def start_checking(self):
-		for app in self.connect_sessions:
-			self.checking_block(app)
