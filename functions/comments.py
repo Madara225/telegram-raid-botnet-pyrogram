@@ -57,7 +57,7 @@ class FloodComments(SettingsFunction):
 			print(link_channel, post_id)
 			
 		except Exception as error:
-				console.print(f'[bold red]ERROR[/]:{me.first_name} {error}')
+			console.print(f'[bold red]ERROR[/]:{me.first_name} {error}')
 				
 		
 		post = await app.get_discussion_message(link_channel, post_id)
