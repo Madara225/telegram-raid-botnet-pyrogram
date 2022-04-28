@@ -43,11 +43,11 @@ class Vote(SettingsFunction):
 			
 			
 		except Exception as error:
-				console.print(f'[bold red]ERROR[/]:{me.first_name} {error}')
+			console.print(f'[bold red]ERROR[/]:{me.first_name} {error}')
 		
 		try:
 			app.vote_poll(link_channel, post_id, self.option)
 		
 		except Exception as error:
-				console.print(f'[bold red]ERROR[/]:{me.first_name} {error}')
+			console.print(f'[bold red]ERROR[/]:{me.first_name} {error}')
 		
