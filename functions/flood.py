@@ -115,7 +115,7 @@ class FloodChat(SettingsFunction):
 					reply_msg_id = False
 
 				if message.text == trigger and message.from_user.id == my_id:
-						await self.flood(app, message.chat.id, reply_msg_id)
+					await self.flood(app, message.chat.id, reply_msg_id)
 
 			idle()
 			
