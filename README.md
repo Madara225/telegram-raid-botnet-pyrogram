@@ -1,3 +1,17 @@
+# Устанока
+
+`git clone https://github.com/Madara225/telegram-raid-botnet-pyrogram`
+
+`cd telegram-raid-botnet-pyrogram`
+
+`pip3 install -r requirements.txt`
+
+`python3 main.py`
+
+авторизуемся: https://my.telegram.org/
+
+оттуда берем id и hash
+
 # Добавление аккаунтов
 `cd sessions`
 
