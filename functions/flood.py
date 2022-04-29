@@ -45,11 +45,10 @@ class FloodChat(SettingsFunction):
         if self.notify:
             self.users_id = []
             async for member in app.iter_chat_members(self.chat_id):
-                if not member.status in ["creator", "administrator"] and not self.notify_admins:
+                if member.status in ["creator", "administrator"] and not self.notify_admins:
                     continue
                 
-                elif self.notify_admins:
-                    self.users_id.append(str(member.user.id))
+                self.users_id.append(str(member.user.id))
         else:
             self.users_id = ['']
         
