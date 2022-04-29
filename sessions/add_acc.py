@@ -5,6 +5,10 @@ import json
 from asyncio import *
 import glob
 import os
+from rich.console import Console
+from config_api import api_id, api_hash
+
+console = Console()
 
 menu = input('''
 [1] create an account
@@ -19,7 +23,7 @@ data = {"storage_sessions": []}
 
 
 if menu == '1':
-	app = Client(name)
+	app = Client(session, api_id, api_hash)
 	with app:
 		me = app.get_me()
 		print([me.first_name])
@@ -31,7 +35,7 @@ elif menu == '2':
 		session = session[:-8]
 
 		try:
-			app = Client(session)
+			app = Client(session, api_id, api_hash)
 			app.connect()
 			me = app.get_me()
 			string = app.export_session_string()
@@ -40,7 +44,7 @@ elif menu == '2':
 
 			app.disconnect() 
 		except Exception as error:
-			print(f'ERROR: {session} {error}')
+			console.print(f'[bold red]ERROR[bold white]: {session} {error}')
 
 
 	with open("sessions.json", "w") as write_file:
@@ -49,7 +53,7 @@ elif menu == '2':
 elif menu == '3':
 	def checking(session):
 		try:
-			app = Client(session)
+			app = Client(session, api_id, api_hash)
 			app.connect()
 			me = app.get_me()
 			print(me.first_name)
