@@ -23,9 +23,9 @@ data = {"storage_sessions": []}
 
 if menu == '1':
     sub_menu = input('''
-    [1] add existing account
-    [2] create new account (5sim.net)
-    >> ''')
+[1] add existing account
+[2] create new account (5sim.net)
+>> ''')
     if sub_menu == '1':
         name = "".join(random.choices(string.ascii_letters, k=10))
         app = Client(name, api_id, api_hash)
