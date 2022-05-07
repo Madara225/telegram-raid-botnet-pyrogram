@@ -9,9 +9,9 @@ class SettingsFunction:
     def add_api(self):
         api_id = int(console.input('[bold red]API ID:[/] '))
         api_hash = console.input('[bold red]API HASH:[/] ')
-        
+        sms_activate_key = console.input('[bold red]SMS ACTIVATE KEY:[/] ')
         my_file = open("sessions/config_api.py", "w+")
-        my_file.write(f'api_id = {api_id}\napi_hash = "{api_hash}"')
+        my_file.write(f'api_id = {api_id}\napi_hash = "{api_hash}"\nsms_activate_key = "{sms_activate_key}"\n')
         my_file.close()
         sys.exit()
 

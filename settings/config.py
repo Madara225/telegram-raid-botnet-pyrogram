@@ -28,3 +28,6 @@ first_name = ['']
 
 #Пример: ['привет', 'а', 'б']
 text = ['']
+
+# used 5sim.net
+sms_activate_key = ''
