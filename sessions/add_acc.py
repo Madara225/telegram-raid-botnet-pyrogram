@@ -40,7 +40,7 @@ Register Count
         while registered != count:
             global buy_account
 
-            buy_account = requests.get('https://5sim.net/v1/user/buy/activation/russia/any/tele', headers={
+            buy_account = requests.get('https://5sim.net/v1/user/buy/activation/russia/any/telegram', headers={
                 'Authorization': 'Bearer ' + sms_activate_key,
                 'Accept': 'application/json',
             }).text
