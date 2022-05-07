@@ -16,17 +16,14 @@ menu = input('''
 [3] checking the session for validity
 >> ''')
 
-name = "".join(random.choices(string.ascii_letters, k=10))
-
-
 data = {"storage_sessions": []}
 
-
 if menu == '1':
-	app = Client(session, api_id, api_hash)
-	with app:
-		me = app.get_me()
-		print([me.first_name])
+    name = "".join(random.choices(string.ascii_letters, k=10))
+    app = Client(name, api_id, api_hash)
+    with app:
+        me = app.get_me()
+        print([me.first_name])
 
 elif menu == '2':
 

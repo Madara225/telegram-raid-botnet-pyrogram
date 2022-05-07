@@ -4,13 +4,13 @@ import os
 trigger = ''
 
 #id основного аккаунта
-my_id = 
+main_raider = 5218363602
 
 #уведомления
 notification = ' '
 
 #количество кругов
-range_acc = 
+range_acc = 10
 
 #поиск стикера/видео в папке
 stickers = os.listdir('media/')

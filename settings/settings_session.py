@@ -25,7 +25,7 @@ class ConnectSessions:
         with open('sessions/sessions.json', 'r') as json_session:
             sessions = json.load(json_session)['storage_sessions']
             for app in sessions:
-                app=Client(app, api_id, api_hash)
+                app=Client(app, api_id, api_hash, session_string=app, in_memory=True)
                 self.connect_sessions.append(app)
         
         if self.initialize:
@@ -39,7 +39,7 @@ class ConnectSessions:
                     
     async def connect_session(self, number, app):
         try:
-            console.log(await app.start())
+            console.log(await app.connect())
             console.log(f'CONNECTED/{True}/{number}')
             
             self.connect_sessions.append(app)
