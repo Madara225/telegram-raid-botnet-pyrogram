@@ -1,0 +1,7 @@
+pyrogram
+tgcrypto
+rich
+phonenumbers
+py-tgcalls
+requests
+toml

@@ -1,0 +1,8 @@
+*.session
+*.session-journal
+sessions.json
+config.toml
+unknown_errors.txt
+
+dead
+__pycache__
