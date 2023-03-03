@@ -1,8 +1,10 @@
 from pyrogram import Client
+from pyrogram.errors import PeerIdInvalid, ChannelPrivate
 
 import asyncio
 
 from rich.console import Console, Theme
+from async_lru import alru_cache
 
 from settings.config import color_number
 from settings.function import SettingsFunction
@@ -21,15 +23,23 @@ class Leavechat(SettingsFunction):
                 ])
             )
 
+    @alru_cache
     async def leavechats(self, session):
         await self.launch(session)
 
         try:
             async for dialog in session.get_dialogs():
                 await session.leave_chat(dialog.chat.id, delete=True)
+                console.log(
+                    "[bold green]Name: {name} id {id}"
+                    .format(name=dialog.chat.first_name, id=dialog.chat.id)
+                )
+
+        except PeerIdInvalid:
+            ...
+
+        except ChannelPrivate as private_error:
+            console.print(private_error)
 
         except Exception as error:
-            console.print(error, style="bold")
-
-        else:
-            console.log(dialog.chat.title)
+            console.print("Error : {}".format(error), style="bold white")
