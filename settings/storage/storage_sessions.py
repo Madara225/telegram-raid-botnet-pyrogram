@@ -1,4 +1,4 @@
-from pyrogram import Client, idle
+from pyrogram import Client
 
 import json, sys, os
 import asyncio
@@ -12,7 +12,6 @@ from settings.storage.storage_settings import Settings
 console = Console()
 
 class ConnectSessions(SettingsFunction):
-    
     def __init__(self):
         path = "sessions/sessions.json"
 
@@ -25,25 +24,29 @@ class ConnectSessions(SettingsFunction):
 
         if not os.path.exists(path):
             console.print("[bold red]Add accounts![/]")
-            sys.exit()
 
         with open(path, "r") as json_session:
+            sessions = json.load(json_session)["storage_sessions"]
+
             asyncio.get_event_loop().run_until_complete(
                 asyncio.gather(*[
-                    self.initialize_client(session)
-                    for session in json.load(json_session)["storage_sessions"]
+                    self.initialize_session(session)
+                    for session in sessions
                 ])
             )
 
-    async def initialize_client(self, session):
+    async def initialize_session(self, session):
         session = Client("session", session_string=session)
         self.sessions.append(session)
 
         if self.initialize == "y":
-            try:
-                await session.start()
-                console.log("CONNECTED")
+            await self.connect_session(session)
 
-            except Exception as error:
-                self.sessions.remove(session)
-                console.print(error, style="bold")
+    async def connect_session(self, session):
+        try:
+            await session.start()
+            console.log("CONNECTED")
+
+        except Exception as error:
+            self.sessions.remove(session)
+            console.print(error, style="bold")
