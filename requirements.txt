@@ -5,3 +5,4 @@ phonenumbers
 py-tgcalls
 requests
 toml
+async_lru

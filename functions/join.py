@@ -1,11 +1,13 @@
 from pyrogram import Client
-import asyncio
+from pyrogram.errors import UserAlreadyParticipant
 
 from rich.console import Console, Theme
 from rich.prompt import Prompt, Confirm
 from rich.progress import track
 
+import asyncio
 from time import perf_counter, sleep
+from async_lru import alru_cache
 
 from settings.function import SettingsFunction
 from functions.flood import FloodChat
@@ -23,11 +25,13 @@ class Joined(FloodChat):
 
         self.account_count()
 
+        peer = self.invitation(console.input("[bold red]link> [/]"))
+        
         print()
 
         console.print(
-            "[1] joining the chat/channel",
-            "[2] joining the channel chat",
+            "[1] Joining the chat/channel",
+            "[2] Joining the channel chat",
             sep="\n",
             style="bold"
         )
@@ -35,21 +39,16 @@ class Joined(FloodChat):
         print()
 
         self.mode = console.input("[bold]>> [/]")
-        link = self.invitation(console.input("[bold red]link> [/]"))
-
-        self.entry_time = Prompt.ask(
-            "[bold red]speed[bold magenta]",
-            choices = ["norm", "fast"]
-        )
+        self.entry_time = Prompt.ask("[bold red]speed", choices=["norm", "fast"])
 
         asyncio.get_event_loop().run_until_complete(
-            self.mode_selection(link)
+            self.mode_selection(peer)
         )
 
-    async def mode_selection(self, peer):
+    @alru_cache
+    async def mode_selection(self, peer: str):
         console.print(
-            f"The {self.entry_time} mode is set!",
-            style="bold white"
+            f"[bold white]The {self.entry_time} mode is set!"
         )
 
         if self.entry_time == "norm":
@@ -57,13 +56,8 @@ class Joined(FloodChat):
             delay = int(console.input("[bold blue]delay> [/]"))
 
             for session in track(self.sessions):
-                await self.joiner(
-                    session,
-                    peer
-                )
-
+                await self.execute(session, peer)
                 await asyncio.sleep(delay)
-
 
         elif self.entry_time == "fast":
             self.flood_joining = Confirm.ask(
@@ -74,67 +68,64 @@ class Joined(FloodChat):
                 self.flood = FloodChat(self.sessions)
                 self.flood.ask()
 
-
             joined = 0
             start = perf_counter()
 
             tasks = await asyncio.gather(*[
-                self.joiner(session, peer)
+                self.execute(session, peer)
                 for session in self.sessions
             ])
 
             for result in tasks:
                 joined += 1
 
-            join_time = round(perf_counter() - start, 2)
+            join_time = round(perf_counter()-start, 2)
 
             console.print(
                 "[+] {joined} bots joined [yellow]{time}[/]s"
                 .format(joined=joined, time=join_time)
             )
 
-    async def joiner(self, session, peer):
-        await self.launch(session)
-
+    async def join(self, session: Client, peer: str) -> int:
         try:
-            if self.mode == '2':
-                channel = await session.get_chat(peer)
-                peer = channel.linked_chat.id
-
+            if self.mode == "2":
+                group = await session.get_chat(peer)
+                peer = group.linked_chat.id
+            
             await session.join_chat(peer)
 
+        except UserAlreadyParticipant:
+            ...
+
         except Exception as error:
-            console.print(
-                f"[-] {error}",
-                style="bold"
-            )
+            console.print("[-] Not join. Error : [red]{error}".format(error=error), style="bold white")
 
         try:
-            if self.mode == '1':
+            if self.mode == "1":
                 group = await session.get_chat(peer)
                 peer = group.id
+        except:
+            ...
 
-            if self.captcha:
-                await self.solve_captcha(
-                    session,
-                    peer
-                )
+        return peer
 
-            if self.flood_joining:
-                reply_msg = None
-                await self.flood.flood(
-                    session,
-                    peer,
-                    reply_msg
-                )
+    async def execute(self, session: Client, link: str):
+        await self.launch(session)
 
-        except Exception as error:
-            console.print(
-                error,
-                style="bold"
+        peer = await self.join(session, link)
+
+        if self.captcha:
+            await self.solve_captcha(session, peer)
+
+        if self.flood_joining:
+            reply_msg = None
+            await self.flood.flood(
+                session,
+                peer,
+                reply_msg
             )
 
-    async def solve_captcha(self, session, chat_id):
+    async def solve_captcha(self, session: Client, chat_id: int):
         sleep(time_captcha)
 
         message = session.get_chat_history(

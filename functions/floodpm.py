@@ -1,6 +1,7 @@
 from pyrogram import Client
 
-import asyncio, time
+import asyncio
+import time
 
 from rich.console import Console, Theme
 from rich.prompt import Prompt

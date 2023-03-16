@@ -1,7 +1,38 @@
 from rich.console import Console
+from directory_tree import display_tree
 import toml
+import os
 
 console = Console()
+
+path = "resources"
+
+if not os.path.exists(path):
+    os.mkdir(path)
+
+    folders = [
+        "account_photo", 
+        "photo", 
+        "stickers", 
+        "video", 
+        "voice"
+    ]
+    
+    for folder in folders:
+        os.mkdir(os.path.join(path, folder))
+
+    display_tree(path, header=True)
+
+    print()
+
+    console.print(
+        "Folder \"resources\" create",
+        "You can add resources.",
+        sep="\n",
+        style="bold yellow"
+    )
+
+    print()
 
 class Registration:
 
@@ -33,7 +64,7 @@ class Registration:
 
         console.print(
             "Enter account names",
-            style = "bold red"
+            style="bold red"
         )
 
         names = []
@@ -50,7 +81,7 @@ class Registration:
 
         console.print(
             "Enter flood messages text",
-            style = "bold green"
+            style="bold green"
         )
 
         messages = []
@@ -69,19 +100,18 @@ class Registration:
         messages,
         names
     ):
-
-        config = dict(
-            session = dict(
-                api_hash = api_hash,
-                api_id = api_id,
-                my_id = my_id,
-                names = names
+        config=dict(
+            session=dict(
+                api_hash=api_hash,
+                api_id=api_id,
+                my_id=my_id,
+                names=names
             ),
 
-            flood = dict(
-                message_count = message_count,
-                trigger = trigger,
-                messages = messages
+            flood=dict(
+                message_count=message_count,
+                trigger=trigger,
+                messages=messages
             )
         )
 

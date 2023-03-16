@@ -50,4 +50,4 @@ class Vote(SettingsFunction):
             console.print(error, style="bold")
 
         else:
-            console.print("{} successfully".format(me.first_name), style="bold green")
+            console.print("{name} successfully".format(name=me.first_name), style="bold green")

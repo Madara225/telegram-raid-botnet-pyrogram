@@ -5,4 +5,5 @@ config.toml
 unknown_errors.txt
 
 dead
+resources
 __pycache__

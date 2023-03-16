@@ -9,10 +9,7 @@ from settings.storage.storage_sessions import ConnectSessions
 console = Console(theme=Theme({"repr.number": color_number}))
 
 if platform == "win32":
-    console.print(
-        "The script will work with errors (use linux or WSL).",
-        style="bold red"
-    )
+    console.print("[bold red]The script will work with errors (use linux or WSL).")
 
 console.print(
     "GitHub botnet on pyrogram: https://github.com/Madara225/telegram-raid-botnet-pyrogram",

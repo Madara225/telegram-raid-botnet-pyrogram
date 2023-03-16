@@ -5,6 +5,7 @@ from pyrogram.errors import (
     RandomIdDuplicate
 )
 
+
 import asyncio
 import random, sys, time, os
 
@@ -14,6 +15,7 @@ from rich.progress import track
 
 from multiprocessing import Process
 from pyrogram.raw import functions, types
+from async_lru import alru_cache
 
 from settings.function import SettingsFunction
 from settings.config import color_number
@@ -158,11 +160,7 @@ class FloodChat(SettingsFunction):
 
             except Exception as error:
                 errors_count += 1
-
-                console.print(
-                    error,
-                    style="bold white"
-                )
+                console.print("Not sent. Error : %s" % error, style="bold white")
 
             finally:
                 await asyncio.sleep(self.delay)

@@ -1,6 +1,5 @@
 from pyrogram import Client, enums
 import asyncio
-import numpy
 import random
 from rich.console import Console, Theme
 
