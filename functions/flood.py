@@ -35,16 +35,10 @@ class FloodChat(SettingsFunction):
             ("Raid stickers", self.send_stickers)
         )
 
-        for number, function in enumerate(
-            choices,
-            start=1
-        ):
+        for number, function in enumerate(choices, 1):
             console.print(
                 "[bold white][{number}] {name}[/]"
-                .format(
-                    number=number,
-                    name=function[0]
-                )
+                .format(number=number, name=function[0])
             )
 
         choice = int(console.input("[bold white]>> [/]"))-1

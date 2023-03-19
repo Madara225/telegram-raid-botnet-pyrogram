@@ -51,11 +51,13 @@ class InviteUsers(SettingsFunction):
 
         else:
             for member in session.get_chat_members(chat.id):
-                if not member.user.is_bot:
-                    if not member.user.username:
-                        self.users.append(member.user.id)
-                    else:   
-                        self.users.append(member.user.username)
+                if member.user.is_bot:
+                    return None
+                
+                if not member.user.username:
+                    self.users.append(member.user.id)
+                else:   
+                    self.users.append(member.user.username)
 
             console.print(
                 "[bold yellow][*] Got %d users." % len(self.users)

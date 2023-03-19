@@ -42,7 +42,7 @@ while True:
         function(accounts.sessions)
 
     except KeyboardInterrupt:
-        console.print("\n<https://t.me/sower_qq>")
+        console.print("\n<https://t.me/sower_telegram>")
         sys.exit()
 
     except Exception as error:
