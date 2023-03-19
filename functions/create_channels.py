@@ -11,7 +11,6 @@ from rich.console import Console
 console = Console()
 
 class CreateChannels(SettingsFunction):
-	"""Create channels"""
 
 	def __init__(self, sessions):
 		self.sessions = sessions
@@ -35,8 +34,8 @@ class CreateChannels(SettingsFunction):
 		except Exception as error:
 			console.print("Error : {}".format(error))
 
-		else:
-			with open("channels.json", "w") as file:
-				json.dump(channel, file, indent=4)
+		# else:
+		# 	with open("channels.json", "w") as file:
+		# 		json.dump(channel, file, indent=4)
 
-			console.print(channel, style="bold white")
+		# 	console.print(channel, style="bold white")
