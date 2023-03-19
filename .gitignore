@@ -3,6 +3,7 @@
 sessions.json
 config.toml
 unknown_errors.txt
+create_channels.py
 
 dead
 resources
