@@ -114,6 +114,9 @@ class Joined(FloodChat):
 
         peer = await self.join(session, link)
 
+        if isinstance(peer, str):
+            return None
+
         if self.captcha:
             await self.solve_captcha(session, peer)
 
