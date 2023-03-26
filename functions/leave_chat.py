@@ -33,7 +33,7 @@ class Leavechat(SettingsFunction):
 
                 console.log(
                     "[bold green]Name: {name} id {id}"
-                    .format(name=dialog.chat.title if dialog.chat.first_name is None else dialog.chat.first_name, id=dialog.chat.id)
+                    .format(name=dialog.chat.first_name if dialog.chat.first_name else dialog.chat.title, id=dialog.chat.id)
                 )
 
         except PeerIdInvalid:
