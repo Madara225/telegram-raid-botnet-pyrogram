@@ -8,12 +8,14 @@ from rich.progress import track
 import asyncio
 from time import perf_counter, sleep
 from async_lru import alru_cache
+from py_expression_eval import Parser
 
 from settings.function import SettingsFunction
 from functions.flood import FloodChat
 from settings.config import time_captcha
 
 console = Console()
+parser = Parser()
 
 class Joined(FloodChat):
     """Join to chat"""
@@ -53,6 +55,15 @@ class Joined(FloodChat):
 
         if self.entry_time == "norm":
             self.captcha = Confirm.ask("[bold red]captcha?")
+            if self.captcha:
+                console.print(
+                    "[1] Solve an example",
+                    "[2] Click on the button",
+                    sep="\n",
+                    style="bold white"
+                )
+                self.choice_captcha = console.input("> ")
+
             delay = int(console.input("[bold blue]delay> [/]"))
 
             for session in track(self.sessions):
@@ -138,13 +149,34 @@ class Joined(FloodChat):
 
         async for msg in message:
             try:
-                callback = msg.reply_markup \
-                    .inline_keyboard[0][0].callback_data
+                if self.choice_captcha == "1":
+                    await self.calculate_captcha(msg, session, chat_id)
 
-                await session.request_callback_answer(
-                    chat_id,
-                    msg.id,
-                    callback
-                )
+                elif self.choice_captcha == "2":
+                    callback = msg.reply_markup \
+                        .inline_keyboard[0][0].callback_data
+
+                    await session.request_callback_answer(
+                        chat_id,
+                        msg.id,
+                        callback
+                    )
+
             except:
                 pass
+
+    async def calculate_captcha(self, msg, session: Client, chat_id: int):
+        try:
+            example = "".join(msg.poll.question.split(" ")[-3:])[:-1]
+            answer = parser.parse(example).evaluate({})
+
+            for option in msg.poll.options:
+                if int(option.text) == answer:
+                    await session.vote_poll(
+                        chat_id, 
+                        msg.id, 
+                        int(option.data.decode("utf-8"))
+                    )
+
+        except:
+            pass
