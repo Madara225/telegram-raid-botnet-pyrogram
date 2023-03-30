@@ -29,10 +29,12 @@ def get_commit() -> None | bool:
     except Exception as error:
         console.log("Error : %s" % error, style="bold white")
 
-    if local_hash == server_hash:
-        console.print("[bold green]Latest commit! :D")
     else:
-        update()
+        if local_hash == server_hash:
+            console.print("[bold green]Latest commit! :D")
+        else:
+            if console.input("Update? (y/n)") == "y":
+                update()
 
 def get_version() -> None | bool:
     try:
@@ -43,17 +45,18 @@ def get_version() -> None | bool:
     except Exception as error:
         console.log("Error : %s" % error, style="bold white")
 
-    if server_version == local_version:
-        console.print("[bold green]Versions match.")
-    
     else:
-        console.print(
-            "[bold red]Versions don't match.[/] Perhaps the server did not have time to update :)"
-        )
-        console.print(
-            "Local version: {local} Server: {server}"
-            .format(local=local_version, server=server_version)
-        )
+        if server_version == local_version:
+            console.print("[bold green]Versions match.")
+        
+        else:
+            console.print(
+                "[bold red]Versions don't match.[/] Perhaps the server did not have time to update :)"
+            )
+            console.print(
+                "Local version: {local} Server: {server}"
+                .format(local=local_version, server=server_version)
+            )
 
 def execute():
     console.log("Checking for updates...")
