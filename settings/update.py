@@ -12,7 +12,7 @@ def update():
         origin.pull()
 
         try:
-            if float(pip.__version__) >= 23.0.1:
+            if float(pip.__version__[:-2]) == 23.0:
                 pip.main(["install", "-r", "requirements.txt", "--break-system-packages", "--quiet"])
             else:
                 pip.main(["install", "-r", "requirements.txt", "--quiet"])
