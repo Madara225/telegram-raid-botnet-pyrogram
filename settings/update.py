@@ -12,9 +12,13 @@ def update():
         origin.pull()
 
         try:
-            pip.main(["install", "-r", "requirements.txt", "--break-system-packages", "--quiet"])
-        except:
-            console.log("Try updating the pip.")
+            if float(pip.__version__) >= 23.0.1:
+                pip.main(["install", "-r", "requirements.txt", "--break-system-packages", "--quiet"])
+            else:
+                pip.main(["install", "-r", "requirements.txt", "--quiet"])
+
+        except Exception as error:
+            console.log(error)
 
 def get_commit() -> None | bool:
     try:
@@ -41,7 +45,7 @@ def get_version() -> None | bool:
 
     if server_version == local_version:
         console.print("[bold green]Versions match.")
-
+    
     else:
         console.print(
             "[bold red]Versions don't match.[/] Perhaps the server did not have time to update :)"
