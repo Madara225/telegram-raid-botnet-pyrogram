@@ -3,6 +3,7 @@ from sys import platform
 from rich.console import Console, Theme
 
 from settings.storage.storage_settings import Settings
+from settings.update import execute
 from settings.config import color_number
 from settings.storage.storage_sessions import ConnectSessions
 
@@ -19,6 +20,8 @@ console.print(
 )
 
 print()
+
+execute()
 
 functions = list(Settings().get_functions())
 accounts = ConnectSessions()

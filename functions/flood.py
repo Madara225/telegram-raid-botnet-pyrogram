@@ -92,6 +92,7 @@ class FloodChat(SettingsFunction):
             reply_to_message_id=reply_msg
         )
 
+    @alru_cache
     async def flood(self, session, peer, reply_msg):
         await self.launch(session)
 
@@ -119,8 +120,8 @@ class FloodChat(SettingsFunction):
             else:
                 message = "<a href=\"tg://user?id={user_id}\">\u206c\u206f</a>{message}" \
                 .format(
-                    user_id = random.choice(users_id),
-                    message = random.choice(self.settings.messages)
+                    user_id=random.choice(users_id),
+                    message=random.choice(self.settings.messages)
                 )
 
             try:
