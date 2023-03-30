@@ -8,4 +8,5 @@ toml
 async_lru
 directory_tree
 gitpython
+py_expression_eval
 requests
