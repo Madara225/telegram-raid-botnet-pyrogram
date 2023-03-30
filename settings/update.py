@@ -30,7 +30,7 @@ def get_commit() -> None | bool:
     else:
         update()
 
-def get_version():
+def get_version() -> None | bool:
     try:
         server_version = requests.get("https://raw.githubusercontent.com/Madara225/telegram-raid-botnet-pyrogram/master/.version").text.strip()
         with open(".version") as file:
@@ -53,5 +53,5 @@ def get_version():
 
 def execute():
     console.log("Checking for updates...")
-    get_version()
+    get_version() 
     get_commit()

@@ -7,5 +7,5 @@ requests
 toml
 async_lru
 directory_tree
-pythongit
+gitpython
 requests
