@@ -33,7 +33,7 @@ def get_commit() -> None | bool:
         if local_hash == server_hash:
             return True
         
-        if console.input("Update? (y/n)") == "y":
+        if console.input("Update? (y/n): ") == "y":
             update()
 
 def get_version() -> None | bool:
