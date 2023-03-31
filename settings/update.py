@@ -12,7 +12,7 @@ def update():
         origin.pull()
 
         try:
-            if float(pip.__version__[:-2]) == 23.0:
+            if float(pip.__version__[:-2]) >= 23.0:
                 pip.main(["install", "-r", "requirements.txt", "--break-system-packages", "--quiet"])
             else:
                 pip.main(["install", "-r", "requirements.txt", "--quiet"])
@@ -31,10 +31,10 @@ def get_commit() -> None | bool:
 
     else:
         if local_hash == server_hash:
-            console.print("[bold green]Latest commit! :D")
-        else:
-            if console.input("Update? (y/n)") == "y":
-                update()
+            return True
+        
+        if console.input("Update? (y/n)") == "y":
+            update()
 
 def get_version() -> None | bool:
     try:
@@ -47,18 +47,19 @@ def get_version() -> None | bool:
 
     else:
         if server_version == local_version:
-            console.print("[bold green]Versions match.")
+            console.print("Version:", local_version)
         
         else:
-            console.print(
-                "[bold red]Versions don't match.[/] Perhaps the server did not have time to update :)"
-            )
+            console.print("[bold red]Versions don't match.[/] Perhaps the server did not have time to update :)")
+
             console.print(
                 "Local version: {local} Server: {server}"
                 .format(local=local_version, server=server_version)
             )
 
-def execute():
+    finally:
+        get_commit()
+
+def check_update():
     console.log("Checking for updates...")
     get_version() 
-    get_commit()

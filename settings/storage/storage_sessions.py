@@ -24,6 +24,7 @@ class ConnectSessions(SettingsFunction):
 
         if not os.path.exists(path):
             console.print("[bold red]Add accounts![/]")
+            sys.exit()
 
         with open(path, "r") as json_session:
             sessions = json.load(json_session)["storage_sessions"]
