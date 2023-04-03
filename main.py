@@ -3,7 +3,7 @@ from sys import platform
 from rich.console import Console, Theme
 
 from settings.storage.storage_settings import Settings
-from settings.update import check_update
+from settings.update import get_commit
 from settings.config import color_number
 from settings.storage.storage_sessions import ConnectSessions
 
@@ -21,7 +21,8 @@ console.print(
 
 print()
 
-check_update()
+if get_commit():
+    console.print("Latest version.")
 
 functions = list(Settings().get_functions())
 accounts = ConnectSessions()
@@ -31,7 +32,7 @@ def main():
 
     for index, function in enumerate(functions, 1):
         console.print(
-            "[bold][{color}][{num}][/] {name}[/]"
+            "[bold white][{color}][{num}][/] {name}"
             .format(color=color_number, num=index, name=function.__doc__.lower())
         )
 
