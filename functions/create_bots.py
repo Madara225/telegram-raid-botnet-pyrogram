@@ -38,7 +38,7 @@ class CreateBots(SettingsFunction):
             try:
                 session.send_message("@BotFather", command)
             except Exception as error:
-                return None
+                continue
             else:
                 time.sleep(0.5)
 
@@ -53,7 +53,7 @@ class CreateBots(SettingsFunction):
             messages = session.get_chat_history("@BotFather", limit=1)
             message = [text for text in messages][0]    
             token = message.text.split("\n")[3]
-        except Exception:
+        except:
             ...
         
         return token
