@@ -28,7 +28,7 @@ functions = list(Settings().get_functions())
 accounts = ConnectSessions()
 
 def main():
-    console.print("[bold]botnet accounts >> %d[/]" % len(accounts.sessions))
+    console.print("botnet accounts >> %d" % len(accounts.sessions), style="bold white")
 
     for index, function in enumerate(functions, 1):
         console.print(
@@ -46,7 +46,7 @@ while True:
         function(accounts.sessions)
 
     except KeyboardInterrupt:
-        console.print("\n<https://t.me/sower_telegram>")
+        console.print("\n<https://discord.gg/9cXVhs5v>")
         sys.exit()
 
     except Exception as error:
