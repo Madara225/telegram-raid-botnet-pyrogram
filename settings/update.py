@@ -8,16 +8,20 @@ console = Console()
 def update():
     with console.status("Update..."):
         repo = git.Repo()
-        origin = repo.remote("origin")
-        origin.pull()
-
-        packages = ["install", "-r", "requirements.txt", "--quiet"]
 
         try:
+            origin = repo.remote("origin")
+            origin.pull()
+
+            packages = ["install", "-r", "requirements.txt", "--quiet"]
+
             if float(pip.__version__[:-2]) >= 23.0:
                 pip.main(packages+["--break-system-packages"])
             else:
                 pip.main(packages)
+
+        except git.exc.GitCommandError:
+            console.print("[bold red]You may have made local changes to the files, you will have to manually update the script.")
 
         except Exception as error:
             console.log(error)
