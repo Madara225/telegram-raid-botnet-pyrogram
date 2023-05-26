@@ -21,13 +21,26 @@ class CreateBots(SettingsFunction):
 
         for session in self.sessions:
             username = "".join(random.choices(string.ascii_letters, k=10))+"bot"
-            self.create_bot(session, nickname, username)
+            self.parse_token(session, nickname, username)
 
-    def create_bot(self, session: Client, nickname: str, username: str):
+    def parse_token(self, session: Client, nickname: str, username: str):
         asyncio.get_event_loop().run_until_complete(
             self.launch(session)
         )
 
+        try:
+            messages = session.get_chat_history("@BotFather", limit=1)
+            message = [text for text in messages][0]    
+            token = message.text.split("\n")[3]
+
+        except Exception as error:
+            console.log(error)
+
+        else:
+            if token:
+                self.create_bot(session, nickname, username, token)
+
+    def create_bot(self, session: Client, nickname: str, username: str, token: str):
         commands = [
             "/newbot",
             nickname,
@@ -42,18 +55,4 @@ class CreateBots(SettingsFunction):
             else:
                 time.sleep(0.5)
 
-        token = self.parse_token(session)
-        if token:
-            console.print("Bot: ({}, @{})".format(token, username), style="bold white")
-        else:
-            console.print("[bold red]Error, maybe the username is already in use.")
-
-    def parse_token(self, session: Client) -> str | None:
-        try:
-            messages = session.get_chat_history("@BotFather", limit=1)
-            message = [text for text in messages][0]    
-            token = message.text.split("\n")[3]
-        except:
-            ...
-        
-        return token
+        console.print("Bot: ({}, @{})".format(token, username), style="bold white")
