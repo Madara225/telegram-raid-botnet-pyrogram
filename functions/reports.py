@@ -45,7 +45,8 @@ class Reports(SettingsFunction):
         )
 
     async def send_report(
-        self, session: Client, 
+        self, 
+        session: Client, 
         peer: int, 
         msg_id: int, 
         comment: str, 
