@@ -26,7 +26,7 @@ def update():
         except Exception as error:
             console.log(error)
 
-def get_commit() -> None | bool:
+def get_commit():
     try:
         repo = git.Repo()
         local_hash = repo.heads[0].commit.hexsha
@@ -37,7 +37,7 @@ def get_commit() -> None | bool:
 
     else:
         if local_hash == server_hash:
-            return True
+            return console.print("The latest version is installed.")
         
         if console.input("Update? (y/n): ") == "y":
             update()

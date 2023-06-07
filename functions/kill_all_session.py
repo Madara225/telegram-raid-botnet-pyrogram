@@ -20,16 +20,10 @@ class ResetAuth(SettingsFunction):
         )
 
     async def kill_all_session(self, session):
-        await self.launch(session)
-
-        try:
+        if await self.launch(session):
             me = await session.get_me()
             account = await session.invoke(functions.account.GetAuthorizations())
 
-        except Exception as error:
-            console.print(f"Error: {error}", style="bold")
-
-        else:
             for x in account.authorizations[::1]:
                 try:
                     await session.invoke(functions.account.ResetAuthorization(hash=x.hash))
@@ -38,7 +32,7 @@ class ResetAuth(SettingsFunction):
                     continue
 
                 except Exception as error:
-                    console.print(error, style="bold red")
+                    console.print("Error : {}".format(error), style="bold red")
 
                 else:
                     console.print(

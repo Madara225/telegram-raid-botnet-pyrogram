@@ -19,14 +19,13 @@ class SetPassword(SettingsFunction):
         )
 
     async def enable_password(self, session: Client, password: str):
-        await self.launch(session)
+        if await self.launch(session):
+            try:
+                me = await session.get_me()
+                await session.enable_cloud_password(password)
 
-        try:
-            me = await session.get_me()
-            await session.enable_cloud_password(password)
+            except Exception as error:
+                console.print(f"[bold]The password is not set.[red] Error: {error}[/]")
 
-        except Exception as error:
-            console.print(f"[bold]The password is not set.[red] Error: {error}[/]")
-
-        else:
-            console.print(f"[bold green]{me.first_name} - the password is set.[/]")
+            else:
+                console.print(f"[bold green]{me.first_name} - the password is set.[/]")

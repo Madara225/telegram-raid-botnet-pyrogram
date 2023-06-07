@@ -24,13 +24,14 @@ class SettingsFunction:
 
     async def launch(self, session):
         try:
-            await session.start()
+            return await session.start()
 
         except ConnectionError:
             pass
 
         except Exception as error:
             console.print("[bold red]Not connected.[/] Error : {}".format(error), style="bold white")
+            return
 
     def invitation(self, link: str) -> str:
         if not "/+" in link:

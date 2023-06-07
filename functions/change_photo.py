@@ -38,39 +38,37 @@ class ChangePhoto(SettingsFunction):
         )
 
     async def change_photo(self, session):
-        await self.launch(session)
+        if await self.launch(session):
+            directory = os.path.join("resources", "account_photo")
 
-        directory = os.path.join("resources", "account_photo")
+            try:
+                me = await session.get_me()
 
-        try:
-            me = await session.get_me()
+                file = random.choice(os.listdir(directory))
+                await session.set_profile_photo(photo=directory+file)
 
-            file = random.choice(os.listdir(directory))
-            await session.set_profile_photo(photo=directory+file)
+            except Exception as error:
+                console.print(
+                    "Error : {}".format(error), style="bold white"
+                )
 
-        except Exception as error:
-            console.print(
-                "Error : {}".format(error), style="bold white"
-            )
-
-        else:
-            console.print(
-                "[bold green][+] {name} {file}[/]"
-                .format(name=me.first_name, file=file)
-            )
+            else:
+                console.print(
+                    "[bold green][+] {name} {file}[/]"
+                    .format(name=me.first_name, file=file)
+                )
 
     async def delete_photo(self, session):
-        await self.launch(session)
-        
-        try:
-            photos = [photo async for photo in session.get_chat_photos("me")]
+        if await self.launch(session):
+            try:
+                photos = [photo async for photo in session.get_chat_photos("me")]
 
-            await session.delete_profile_photos(
-                [photo.file_id for photo in photos[0:]]
-            )
+                await session.delete_profile_photos(
+                    [photo.file_id for photo in photos[0:]]
+                )
 
-        except Exception as error:
-            console.print(error, style="bold white")
+            except Exception as error:
+                console.print(error, style="bold white")
 
-        else:
-            console.print("[-] DELETED", style="bold green")
+            else:
+                console.print("[-] DELETED", style="bold green")

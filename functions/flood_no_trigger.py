@@ -33,11 +33,9 @@ class FloodChatNoTrigger(SettingsFunction):
         )
 
     async def start_flood(self, session, peer, reply_msg):
-        await self.launch(session)
-        try:
-            await self.flood.flood(session, peer, reply_msg)
-
-        except Exception as error:
-            console.print(error, style="bold")
-
-
+        if await self.launch(session):
+            await self.flood.flood(
+                session, 
+                peer, 
+                reply_msg
+            )

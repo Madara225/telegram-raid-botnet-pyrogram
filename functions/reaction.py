@@ -33,7 +33,10 @@ class ReactionMessage(SettingsFunction):
 
         if not self.mix_reacion:
             for number, name in enumerate(self.emoji, 1):
-                console.print(f"[{number}] {name}")
+                console.print(
+                    "[bold white][{}] {}"
+                    .format(number, name)
+                )
 
             self.emoji = [self.emoji[int(console.input("[bold white]>> [/]"))-1]]
 
@@ -64,21 +67,22 @@ class ReactionMessage(SettingsFunction):
             console.print(error)
 
     async def flood_reaction(self, session, peer, post_id):
-        await self.launch(session)
+        if await self.launch(session):
+            try:
+                messages = session.get_chat_history(peer)
 
-        try:
-            messages = session.get_chat_history(peer)
-        except Exception as error:
-            console.print(error, style="bold")
-        else:
-            count = 0
-            async for message in messages:
-                try:
-                    await session.send_reaction(peer, message.id, random.choice(self.emoji))
+            except Exception as error:
+                console.print(error, style="bold")
 
-                except Exception as error:
-                    console.print("Not sent. {}".format(error), style="bold white")
+            else:
+                count = 0
+                async for message in messages:
+                    try:
+                        await session.send_reaction(peer, message.id, random.choice(self.emoji))
 
-                else:
-                    count += 1
-                    console.print("Successfully. COUNT: {}".format(count), style="bold green")
+                    except Exception as error:
+                        console.print("Not sent. {}".format(error), style="bold white")
+
+                    else:
+                        count += 1
+                        console.print("Successfully. COUNT: {}".format(count), style="bold green")

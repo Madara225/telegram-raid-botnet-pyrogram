@@ -14,13 +14,9 @@ console = Console()
 class ConnectSessions(SettingsFunction):
     def __init__(self):
         path = "sessions/sessions.json"
-
-        self.initialize = Prompt.ask(
-            "[bold]Initialize sessions?[/]",
-            choices=["y", "n"], default="n"
-        )
-
         self.sessions = []
+
+        self.initialize = Prompt.ask("[bold]Initialize sessions?[/]", choices=["y", "n"], default="n")
 
         if not os.path.exists(path):
             console.print("[bold red]Add accounts![/]")
@@ -40,14 +36,11 @@ class ConnectSessions(SettingsFunction):
         session = Client("session", session_string=session)
         self.sessions.append(session)
 
-        if self.initialize == "y":
-            await self.connect_session(session)
+        if self.initialize != "y":
+            return
 
-    async def connect_session(self, session):
-        try:
-            await session.start()
-            console.log("CONNECTED")
+        if await self.launch(session):
+            console.print("CONNECTED")
+            return
 
-        except Exception as error:
-            self.sessions.remove(session)
-            console.print(error, style="bold")
+        self.sessions.remove(session)

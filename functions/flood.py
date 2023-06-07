@@ -184,10 +184,7 @@ class FloodChat(SettingsFunction):
         console.print(f"[bold green]successfully ({index})[/]")
 
         @session.on_message()
-        async def main(
-            client,
-            message
-        ):
+        async def main(client, message):
             if message.text == self.settings.trigger \
                     and message.from_user.id == self.settings.my_id:
                 reply_msg = message.reply_to_message_id

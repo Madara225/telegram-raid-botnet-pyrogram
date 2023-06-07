@@ -50,8 +50,10 @@ class CreateBots(SettingsFunction):
         for command in commands:
             try:
                 session.send_message("@BotFather", command)
-            except Exception as error:
+                
+            except:
                 continue
+
             else:
                 time.sleep(0.5)
 

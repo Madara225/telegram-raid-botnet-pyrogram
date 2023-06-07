@@ -20,9 +20,7 @@ console.print(
 )
 
 print()
-
-if get_commit():
-    console.print("Latest version.")
+get_commit()
 
 functions = list(Settings().get_functions())
 accounts = ConnectSessions()

@@ -32,16 +32,10 @@ class FloodMP(SettingsFunction):
         )
 
     async def flood_pm(self, session):
-        await self.launch(session)
-
-        try:
+        if await self.launch(session):
             me = await session.get_me()
-
-        except Exception as error:
-            console.print(error)
-
-        else:
             count = 0
+
             while True:
                 try:
                     await session.send_message(self.users, self.text_flood)
@@ -53,7 +47,7 @@ class FloodMP(SettingsFunction):
                     )
 
                 except Exception as error:
-                    console.print(error, style="bold")
+                    console.print("Not sent. Error : %s" % error, style="bold white")
 
                 finally:
                     await asyncio.sleep(int(self.delay))

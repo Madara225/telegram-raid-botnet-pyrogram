@@ -48,24 +48,20 @@ class TgCalls(SettingsFunction):
         )
 
     async def started(self, session, link):
-        await self.launch(session)
+        if await self.launch(session):
+            try:
+                chat, app = await session.get_chat(link), PyTgCalls(session)
+                await app.start()
 
-        try:
-            chat, app = await session.get_chat(link), PyTgCalls(session)
-            await app.start()
+                if self.function == "1":
+                    await self.call(app, chat)
+                elif self.function == "2":
+                    await self.video(app, chat)
 
-            if self.function == "1":
-                await self.call(app, chat)
-            elif self.function == "2":
-                await self.video(app, chat)
+                await idle()
 
-            await idle()
-
-        except Exception as error:
-            console.print(
-                error,
-                style="bold"
-            )
+            except Exception as error:
+                console.print(error, style="bold")
 
     async def call(self, app, chat):
         await app.join_group_call(
