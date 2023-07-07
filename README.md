@@ -2,6 +2,7 @@
 
 
 Если есть вопросы, Вы можете обратиться в наш discord [чат](https://discord.gg/9cXVhs5v)
+
 Telegram: https://t.me/JoinChannelCaptchaBot?start=sowertg
 
 Идею и часть кода взял у [huis_bn](https://t.me/huis_corp)
