@@ -27,7 +27,7 @@ class SettingsFunction:
             return await session.start()
 
         except ConnectionError:
-            pass
+            return True
 
         except Exception as error:
             console.print("[bold red]Not connected.[/] Error : {}".format(error), style="bold white")
