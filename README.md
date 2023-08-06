@@ -1,10 +1,9 @@
 # Инструкция https://teletype.in/@ebatel_mark_a/au_p4KcZLju
 
 
-Если есть вопросы, Вы можете обратиться в наш discord [чат](https://discord.gg/9cXVhs5v)
+Если есть вопросы, Вы можете обратиться в наш чат[https://sower.online]
 
-Telegram: https://t.me/JoinChannelCaptchaBot?start=sowertg
 
-Идею и часть кода взял у [huis_bn](https://t.me/huis_corp)
+Идею и часть кода взял у [huis_bn](https://huisbn.ru)
 
-Ботнет [huis_bn](https://t.me/huis_corp) -> [json1c/telegram-raid-botnet](https://github.com/json1c/telegram-raid-botnet)
+Ботнет [huis_bn](https://huisbn.ru) -> [json1c/telegram-raid-botnet](https://github.com/json1c/telegram-raid-botnet)
