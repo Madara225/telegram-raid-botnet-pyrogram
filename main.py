@@ -1,11 +1,12 @@
-import sys
-from sys import platform
-from rich.console import Console, Theme
+from sys import exit, platform
 
-from settings.storage.storage_settings import Settings
-from settings.update import get_commit
+from rich.console import Console
+from rich.theme import Theme
+
 from settings.config import color_number
 from settings.storage.storage_sessions import ConnectSessions
+from settings.storage.storage_settings import Settings
+from settings.update import get_commit
 
 console = Console(theme=Theme({"repr.number": color_number}))
 
@@ -25,7 +26,8 @@ get_commit()
 functions = list(Settings().get_functions())
 accounts = ConnectSessions()
 
-def main():
+
+def main() -> type:
     console.print("botnet accounts >> %d" % len(accounts.sessions), style="bold white")
 
     for index, function in enumerate(functions, 1):
@@ -35,8 +37,8 @@ def main():
         )
 
     print()
-
     return functions[int(console.input(">> "))-1]
+
 
 while True:
     try:
@@ -44,8 +46,8 @@ while True:
         function(accounts.sessions)
 
     except KeyboardInterrupt:
-        console.print("\n<https://discord.gg/9cXVhs5v>")
-        sys.exit()
+        console.print("\n<https://sower.online>")
+        exit()
 
     except Exception as error:
         console.print(error)

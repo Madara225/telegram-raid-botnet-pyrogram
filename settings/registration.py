@@ -35,7 +35,6 @@ if not os.path.exists(path):
     print()
 
 class Registration:
-
     def get_settings(self):
         console.rule("Session")
         api_id, api_hash, my_id, names = self.setup_session()
@@ -118,5 +117,5 @@ class Registration:
         with open("config.toml", "w") as file:
             toml.dump(config, file)
 
-        console.rule("[bold white]Happy use! https://t.me/sower_telegram :)[/]")
+        console.rule("[bold white]Happy use! https://sower.online :)[/]")
         console.print("[bold white]Run the file again.[/]")
