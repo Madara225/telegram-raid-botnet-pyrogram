@@ -1,20 +1,20 @@
+import asyncio
+import random
+
 from pyrogram import Client
-
-import asyncio, random
-
 from rich.console import Console, Theme
 from rich.progress import track
 from rich.prompt import Confirm
 
-from settings.function import SettingsFunction
 from settings.config import color_number, emoji
+from settings.function import SettingsFunction
 
 console = Console(theme=Theme({"repr.number": color_number}))
 
 class ReactionMessage(SettingsFunction):
     """Using reactions"""
 
-    def __init__(self, sessions):
+    def __init__(self, sessions: list) -> None:
         self.sessions = sessions
         self.emoji = emoji
 
@@ -54,35 +54,25 @@ class ReactionMessage(SettingsFunction):
             ])
         ) 
 
-    async def add_reaction(self, session, peer, post_id):
-        await self.launch(session)
-
-        try:
-            await session.send_reaction(
-                peer,
-                post_id,
-                random.choice(self.emoji)
-            )
-        except Exception as error:
-            console.print(error)
-
-    async def flood_reaction(self, session, peer, post_id):
+    async def add_reaction(self, session: Client, peer: str | int, post_id: int) -> None:
         if await self.launch(session):
             try:
-                messages = session.get_chat_history(peer)
-
+                await session.send_reaction(
+                    peer,
+                    post_id,
+                    random.choice(self.emoji)
+                )
             except Exception as error:
-                console.print(error, style="bold")
+                console.print(error)
 
-            else:
-                count = 0
-                async for message in messages:
-                    try:
-                        await session.send_reaction(peer, message.id, random.choice(self.emoji))
-
-                    except Exception as error:
-                        console.print("Not sent. {}".format(error), style="bold white")
-
-                    else:
-                        count += 1
-                        console.print("Successfully. COUNT: {}".format(count), style="bold green")
+    async def flood_reaction(self, session: Client, peer: str | int, post_id: int) -> None:
+        if await self.launch(session):
+            for index in range(post_id, 1, -1):
+                try:
+                    await session.send_reaction(peer, index, random.choice(self.emoji))
+                
+                except Exception as error:
+                    console.print("Not sent. {}".format(error), style="bold white")
+                
+                else:
+                    console.print("[+] {}".format(index))
