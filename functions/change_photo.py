@@ -1,13 +1,13 @@
-from pyrogram import Client
-
-import random, os
 import asyncio
+import os
+import random
 
+from pyrogram import Client
 from rich.console import Console, Theme
 from rich.progress import track
 
-from settings.function import SettingsFunction
 from settings.config import color_number
+from settings.function import SettingsFunction
 
 console = Console(theme=Theme({"repr.number": color_number}))
 
@@ -39,7 +39,7 @@ class ChangePhoto(SettingsFunction):
 
     async def change_photo(self, session):
         if await self.launch(session):
-            directory = os.path.join("resources", "account_photo")
+            directory = os.path.join("resources", "account_photo/")
 
             try:
                 me = await session.get_me()
