@@ -1,4 +1,3 @@
-https://t.me/TeletypeSupportBot
 
 
 # Инструкция https://teletype.in/@ebatel_mark_a/au_p4KcZLju
