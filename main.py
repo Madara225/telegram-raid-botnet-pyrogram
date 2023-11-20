@@ -46,7 +46,7 @@ while True:
         function(accounts.sessions)
 
     except KeyboardInterrupt:
-        console.print("\n<https://sower.online>")
+        console.print("\n<https://sower.space>")
         exit()
 
     except Exception as error:
