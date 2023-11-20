@@ -3,7 +3,7 @@
 # Инструкция https://teletype.in/@ebatel_mark_a/au_p4KcZLju
 
 
-Если есть вопросы, Вы можете обратиться в наш [чат](https://sower.online)
+Если есть вопросы, Вы можете обратиться к [нам](https://sower.space)
 
 
 Идею и часть кода взял у [huis_bn](https://huisbn.ru)
