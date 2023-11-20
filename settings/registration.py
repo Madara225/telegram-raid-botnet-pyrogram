@@ -117,5 +117,5 @@ class Registration:
         with open("config.toml", "w") as file:
             toml.dump(config, file)
 
-        console.rule("[bold white]Happy use! https://sower.online :)[/]")
+        console.rule("[bold white]Happy use! https://sower.space :)[/]")
         console.print("[bold white]Run the file again.[/]")
